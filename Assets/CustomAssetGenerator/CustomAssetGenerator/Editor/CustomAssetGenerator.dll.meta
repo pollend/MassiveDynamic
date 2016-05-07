@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 81928818fc967c84ebb8eef6db870b40
+labels:
+- Custom-Asset
+- ScriptableObject
+timeCreated: 1461266994
+licenseType: Store
+PluginImporter:
+  serializedVersion: 1
+  iconMap: {}
+  executionOrder: {}
+  isPreloaded: 0
+  platformData:
+    Any:
+      enabled: 0
+      settings: {}
+    Editor:
+      enabled: 1
+      settings:
+        DefaultValueInitialized: true
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
