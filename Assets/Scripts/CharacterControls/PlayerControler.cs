@@ -15,18 +15,22 @@ public class PlayerControler : MonoBehaviour {
 	void Update () {
         if (Input.GetMouseButtonUp(0))
         {
+            Debug.Log("here1");
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
+                Debug.Log("here2");
                 if (hit.collider != null && hit.collider.GetComponent<FoundationManager>()
                     && hit.collider.GetComponent<FoundationManager>().state == FoundationManager.currState.POSSIBLE_FOUNDATION)
                 {
+                    Debug.Log("here3");
                     bF.buildFoundation(hit.collider.gameObject);
                     toggleFoundation();
                 }
             }
         }
+
 	}
     public void toggleFoundation()
     {
