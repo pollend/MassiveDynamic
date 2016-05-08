@@ -12,6 +12,8 @@ public class MapManager : MonoBehaviour {
     public float foundHeight;
     public Sprite lobby;
 
+    public PlayerControler playerControler;
+
 	// Use this for initialization
 	void Start () {
 
@@ -28,14 +30,15 @@ public class MapManager : MonoBehaviour {
                     pos = new Vector3(0, 0, 0);
                     temp = Instantiate(foundation, pos, Quaternion.identity) as GameObject;
                     temp.GetComponent<SpriteRenderer>().sprite = lobby;
-                    temp.GetComponent<FoundationManager>().isSet = true;
+                    temp.GetComponent<FoundationManager>().state = FoundationManager.currState.LOBBY;
                 }
                 else
                 {
                     pos = new Vector3(((i - (width / 2)) * foundWidth), ((j - (height / 2)) * foundHeight), 0);
                     temp = Instantiate(foundation, pos, Quaternion.identity) as GameObject;
-                    temp.GetComponent<SpriteRenderer>().enabled = false;
+                    temp.GetComponent<FoundationManager>().state = FoundationManager.currState.INVISIBLE;
                 }
+                temp.GetComponent<FoundationManager>().playerControler = playerControler;
                 temp.name = i.ToString() + ":" + j.ToString();
                 map[i][j] = temp;
             }
@@ -49,7 +52,6 @@ public class MapManager : MonoBehaviour {
 	}
 
     //Used for determining if a foundation can be layed
-    //TODO: MAKE MORE ROBUST WITH FOUNDATION STATES
     public void toggleLayableFoundation(bool can)
     {
         if (can)
@@ -58,33 +60,52 @@ public class MapManager : MonoBehaviour {
             {
                 for (int j = 0; j < map[i].Length; j++)
                 {
-                    if (map[i][j].GetComponent<FoundationManager>().isSet)
+                    if (map[i][j].GetComponent<FoundationManager>().state != FoundationManager.currState.INVISIBLE &&
+                        map[i][j].GetComponent<FoundationManager>().state != FoundationManager.currState.POSSIBLE_FOUNDATION)
                     {
                         toggleNeighbors(true, i, j);
                     }
                 }
             }
         }
+        else
+        {
+            toggleNeighbors(false, 0, 0);
+        }
     }
     void toggleNeighbors(bool active, int i, int j)
     {
+        Debug.Log(i + ":" + j);
         if (active)
         {
-            if (!map[i - 1][j].GetComponent<FoundationManager>().isSet && !map[i - 1][j].GetComponent<SpriteRenderer>().enabled)
+            if (i >= 1 && map[i - 1][j].GetComponent<FoundationManager>().state == FoundationManager.currState.INVISIBLE)
             {
-                map[i - 1][j].GetComponent<SpriteRenderer>().enabled = true;
+                map[i - 1][j].GetComponent<FoundationManager>().state = FoundationManager.currState.POSSIBLE_FOUNDATION;
             }
-            if (!map[i + 1][j].GetComponent<FoundationManager>().isSet && !map[i + 1][j].GetComponent<SpriteRenderer>().enabled)
+            if (i <= width - 2 && map[i + 1][j].GetComponent<FoundationManager>().state == FoundationManager.currState.INVISIBLE)
             {
-                map[i + 1][j].GetComponent<SpriteRenderer>().enabled = true;
+                map[i + 1][j].GetComponent<FoundationManager>().state = FoundationManager.currState.POSSIBLE_FOUNDATION;
             }
-            if (!map[i][j - 1].GetComponent<FoundationManager>().isSet && !map[i][j - 1].GetComponent<SpriteRenderer>().enabled)
+            if (j >= 1 && map[i][j - 1].GetComponent<FoundationManager>().state == FoundationManager.currState.INVISIBLE)
             {
-                map[i][j-1].GetComponent<SpriteRenderer>().enabled = true;
+                map[i][j - 1].GetComponent<FoundationManager>().state = FoundationManager.currState.POSSIBLE_FOUNDATION;
             }
-            if (!map[i][j + 1].GetComponent<FoundationManager>().isSet && !map[i][j + 1].GetComponent<SpriteRenderer>().enabled)
+            if (j <= height - 2 && map[i][j + 1].GetComponent<FoundationManager>().state == FoundationManager.currState.INVISIBLE)
             {
-                map[i][j + 1].GetComponent<SpriteRenderer>().enabled = true;
+                map[i][j + 1].GetComponent<FoundationManager>().state = FoundationManager.currState.POSSIBLE_FOUNDATION;
+            }
+        }
+        else
+        {
+            for (int k = 0; k < map.Length; k++)
+            {
+                for (int l = 0; l < map[k].Length; l++)
+                {
+                    if (map[k][l].GetComponent<FoundationManager>().state == FoundationManager.currState.POSSIBLE_FOUNDATION)
+                    {
+                        map[k][l].GetComponent<FoundationManager>().state = FoundationManager.currState.INVISIBLE;
+                    }
+                }
             }
         }
     }
