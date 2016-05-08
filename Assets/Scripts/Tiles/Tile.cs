@@ -3,22 +3,17 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-	public bool isPreview{get;set;}
-	[Serializable]
-	public int width { get; private set; }
-	[Serializable]
-	public int height { get; private set; }
-
-	protected TileMeta tileMeta;
-
-	void Start()
+    int x;
+    int y;
+	public Tile ()
 	{
-		this.tileMeta = GameObject.Find ("_root").GetComponent<TileMeta> ();
-		if (!isPreview) {
-			
-		}
 	}
-		
+
+    public void setXY(int _x, int _y)
+    {
+        x = _x;
+        y = _y;
+    }
 }
 
 
