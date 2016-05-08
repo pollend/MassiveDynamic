@@ -16,7 +16,6 @@ public class MapManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
         map = new GameObject[width][];
         for (int i = 0; i < map.Length; i++)
         {
