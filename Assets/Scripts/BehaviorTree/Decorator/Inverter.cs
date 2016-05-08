@@ -8,12 +8,12 @@ namespace BehaviorTree
 		{
 		}
 
-		public override void Handle (Result result,DataContext context)
+		public override void Handle (Result result,DataContext context,Node prev)
 		{
 			if (result == Result.FAILED) {
-				base.Handle (Result.SUCCESS, context);
+				base.Handle (Result.SUCCESS, context,this);
 			} else if (result == Result.SUCCESS) {
-				base.Handle (Result.FAILED, context);
+				base.Handle (Result.FAILED, context,this);
 			}
 			
 		}

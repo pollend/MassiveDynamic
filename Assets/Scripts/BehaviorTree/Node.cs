@@ -25,13 +25,13 @@ namespace BehaviorTree
 			return Result.SUCCESS;
 		}
 
-		public virtual void Handle(Node.Result result,DataContext context)
+		public virtual void Handle(Node.Result result,DataContext context,Node previous)
 		{
 
 			if (result == Result.SUCCESS || result == Result.FAILED) {
 				if (context.NodeCount () != 0) {
-					context.Pop ();
-					context.Peek ().Handle (result,context);
+					Node prev = context.Pop ();
+					context.Peek ().Handle (result,context,prev);
 				}
 			}
 

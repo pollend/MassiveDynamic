@@ -13,24 +13,24 @@ namespace BehaviorTree
 		{
 		}
 
-		public override void Handle (Result result, DataContext context)
+		public override void Handle (Result result, DataContext context,Node prev)
 		{
 			if (result == Result.SUCCESS) {
 				Reset ();
 				context.Pop ();
-				context.Peek ().Handle (Result.SUCCESS, context);
+				context.Peek ().Handle (Result.SUCCESS, context,this);
 
 			} else if (result == Result.FAILED) {
 				if (++actionIndex >= nodes.Length) {
 					Reset ();
 					context.Pop ();
-					context.Peek ().Handle (Result.FAILED, context);
+					context.Peek ().Handle (Result.FAILED, context,this);
 				} else {
 					context.PushNode (nodes [actionIndex]);
 				}
 			}
 
-			base.Handle (result, context);
+			base.Handle (result, context,this);
 		}
 
 		private void Reset()

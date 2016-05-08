@@ -2,11 +2,11 @@
 
 namespace BehaviorTree
 {
-	public class BehaviorTree
+	public class Tree
 	{
 		private Node root;
 		private DataContext context;
-		public BehaviorTree (Node root)
+		public Tree (Node root)
 		{
 			this.context = new DataContext ();
 			this.root = root;
@@ -16,9 +16,12 @@ namespace BehaviorTree
 		public void Tick()
 		{
 			Node.Result result =  this.context.Peek ().Run (this.context);
+			Node prev = null;
 			if (result == Node.Result.FAILED || result == Node.Result.SUCCESS)
-				this.context.Pop ();
-			this.context.Peek ().Handle(result,context);
+				prev = this.context.Pop ();
+			else
+				prev = this.context.Peek ();
+			this.context.Peek ().Handle(result,context,prev);
 		}
 	}
 }

@@ -8,7 +8,7 @@ namespace BehaviorTree
 		{
 		}
 
-		public override void Handle (Result result, DataContext context)
+		public override void Handle (Result result, DataContext context,Node prev)
 		{
 			//don't handle anything
 		}

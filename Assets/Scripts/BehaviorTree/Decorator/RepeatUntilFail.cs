@@ -8,11 +8,11 @@ namespace BehaviorTree
 		{
 		}
 
-		public override void Handle (Result result, DataContext context)
+		public override void Handle (Result result, DataContext context,Node prev)
 		{
 			//don't handle the success case and just pass the node up if the pass failes
 			if (result == Result.FAILED) {
-				base.Handle (Result.FAILED, context);	
+				base.Handle (Result.FAILED, context,this);	
 			}
 
 		}

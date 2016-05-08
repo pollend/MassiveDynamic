@@ -1,33 +1,38 @@
 ﻿using System;
+using BehaviorTree;
 
-namespace BehaviorTree
+namespace AssemblyCSharp
 {
-	/**
-	 * Proceedes in a sequence until the node hits a failure
-	 **/
-	public class Sequence : CompositNode
+	public class RetrySelector : CompositNode
 	{
+		protected Node node;
+		int actionIndex;
 
-		protected int actionIndex  = -1;
-		public Sequence(Node[] nodes) : base(nodes)
+		public RetrySelector (Node n,Node[] nodes) : base(nodes)
 		{
+			this.node = n;
 		}
-
 
 		public override void Handle (Result result, DataContext context,Node prev)
 		{
 			if (result == Result.SUCCESS) {
+				if (node == prev) {
+					Reset ();
+					context.Pop ();
+					context.Peek ().Handle (Result.SUCCESS, context, this);
+				} else {
+					Reset ();
+					context.PushNode (node);
+				}
+
+			} else if (result == Result.FAILED) {
 				if (++actionIndex >= nodes.Length) {
 					Reset ();
 					context.Pop ();
-					context.Peek ().Handle (Result.SUCCESS, context,this);
+					context.Peek ().Handle (Result.FAILED, context,this);
 				} else {
 					context.PushNode (nodes [actionIndex]);
 				}
-			} else if (result == Result.FAILED) {
-				Reset ();
-				context.Pop ();
-				context.Peek ().Handle (Result.FAILED, context,this);
 			}
 
 			base.Handle (result, context,this);
@@ -43,10 +48,8 @@ namespace BehaviorTree
 			if (context.Peek() == this) {
 				context.PushNode (nodes [0]);
 			}
-
-			return Result.RUNNING;
+			return base.Run (context);
 		}
-
 	}
 }
 

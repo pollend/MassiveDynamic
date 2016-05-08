@@ -22,7 +22,7 @@ namespace BehaviorTree
 			base.Initialize (context);
 		}
 
-		public override void Handle (Result result, DataContext context)
+		public override void Handle (Result result, DataContext context,Node prev)
 		{
 			
 		}
