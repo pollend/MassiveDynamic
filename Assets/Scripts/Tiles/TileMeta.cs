@@ -1,12 +1,13 @@
 ﻿using System;
+using UnityEngine;
 
-public class TileMeta
+public class TileMeta : MonoBehaviour
 {
-	public Tile[,] tiles;
+	public int width;
+	public int height;
 
-	public TileMeta ()
-	{
-	}
+	private Tile[,] tiles;
+
 }
 
 
