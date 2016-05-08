@@ -12,7 +12,7 @@ public class Actor : MonoBehaviour
 	}
 
 	protected virtual void Start(){
-		tree = new BehaviorTree (Tree);
+		tree = new BehaviorTree.Tree (Tree());
 	}
 
 	protected virtual void FixedUpdate()
