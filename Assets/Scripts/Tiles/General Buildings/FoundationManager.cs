@@ -3,19 +3,13 @@ using System.Collections;
 
 public class FoundationManager : MonoBehaviour {
 
-    public PlayerControler playerControler;
-    bool mouseOver = false;
-
     public currState state;
 
     public enum currState
     {
         INVISIBLE,
         POSSIBLE_FOUNDATION,
-        FOUNDATION,
-        LOBBY,
-        ELEVATOR,
-        LAB1
+        FOUNDATION
     }
 	// Use this for initialization
 	void Start () {
@@ -32,11 +26,6 @@ public class FoundationManager : MonoBehaviour {
         {
             this.GetComponent<SpriteRenderer>().enabled = true;
         }
-        if (mouseOver && Input.GetMouseButtonUp(0))
-        {
-            state = currState.FOUNDATION;
-            playerControler.toggleFoundation();
-        }
 	}
 
     void OnMouseOver()
@@ -45,7 +34,6 @@ public class FoundationManager : MonoBehaviour {
         {
             this.GetComponent<SpriteRenderer>().enabled = true;
         }
-        mouseOver = true;
     }
 
     void OnMouseExit()
@@ -54,6 +42,5 @@ public class FoundationManager : MonoBehaviour {
         {
             this.GetComponent<SpriteRenderer>().enabled = false;
         }
-        mouseOver = false;
     }
 }
