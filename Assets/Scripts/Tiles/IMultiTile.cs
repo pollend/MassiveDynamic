@@ -6,6 +6,7 @@ public interface IMultiTile
 {
 	int GetWidth();
 	int GetHeight();
+
 }
 
 

@@ -31,10 +31,10 @@ public class TileMeta : System.Object
 
 			for (int x = xpos; x < xpos + width; x++) {
 				for (int y = ypos; y < ypos + height; y++) {
-					tile [x, y] = new RefTile (xpos, ypos);
+					tiles [x, y] = new RefTile (xpos, ypos);
 				}
 			}
-			tile [xpos, ypos] = tile;
+			tiles [xpos, ypos] = tile;
 
 		} else {
 			tiles [xpos, ypos] = tile;
