@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    int x;
-    int y;
-	public Tile ()
+	void Start()
 	{
+		Map.Instance ().Meta.AddTile ((int)this.transform.position.x,(int) this.transform.position.y, this);
+
 	}
 
-    public void setXY(int _x, int _y)
-    {
-        x = _x;
-        y = _y;
-    }
+	void OnDestroy()
+	{
+		Map.Instance ().Meta.RemoveTile ((int)this.transform.position.x, (int)this.transform.position.y);
+	}
+
 }
 
 

@@ -1,17 +1,44 @@
 ﻿using System;
 using UnityEngine;
 
-public class TileMeta : MonoBehaviour
+
+[System.Serializable]
+public class TileMeta : System.Object
 {
-	/*public int width;
-	public int height;
+	[SerializeField]
+	public int width { get; private set; }
+	[SerializeField]
+	public int height { get; private set; }
 
-	private Tile[,] tiles;*/
+	private Tile[,] tiles;
+
+	public void AddTile(int x, int y,Tile tile)
+	{
+		if (tile is IMultiTile) {
+			int width = ((IMultiTile)tile).GetWidth ();
+			int height = ((IMultiTile)tile).GetHeight ();
+			//TODO: instantiate for multiple tiles
+
+		} else {
+			tiles [x, y] = tile;
+		}
+	}
+
+	public void RemoveTile(int x, int y)
+	{
+		//TODO: remove tile
+	}
+
+	public void RemoveTile(Vector2 pos)
+	{
+		//Mathf.FloorToInt(pos.x)
+		//TODO REMOVE
+	}
 
 
-    public GameObject[][] tiles;
-    public int width = 13;
-    public int height = 13;
+
+
+  
 
     public GameObject foundation;
     public float foundWidth;
@@ -22,7 +49,8 @@ public class TileMeta : MonoBehaviour
 
     void Start()
     {
-        tiles = new GameObject[width][];
+		
+        /*tiles = new GameObject[width][];
         for (int i = 0; i < tiles.Length; i++)
         {
             tiles[i] = new GameObject[height];
@@ -45,7 +73,7 @@ public class TileMeta : MonoBehaviour
                 temp.GetComponent<Tile>().setXY(i, j);
                 tiles[i][j] = temp;
             }
-        }
+        }*/
 
     }
 
@@ -55,7 +83,7 @@ public class TileMeta : MonoBehaviour
     }
 
     //Used for determining if a foundation can be layed
-    public void toggleLayableFoundation(bool can)
+   /* public void toggleLayableFoundation(bool can)
     {
         if (can)
         {
@@ -118,7 +146,7 @@ public class TileMeta : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
 }
 

@@ -31,6 +31,6 @@ public class PlayerControler : MonoBehaviour {
     public void toggleFoundation()
     {
         canLayFoundation = !canLayFoundation;
-        mM.toggleLayableFoundation(canLayFoundation);
+       // mM.toggleLayableFoundation(canLayFoundation);
     }
 }
