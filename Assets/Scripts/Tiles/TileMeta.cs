@@ -5,6 +5,17 @@ using UnityEngine;
 [System.Serializable]
 public class TileMeta : System.Object
 {
+	private class RefTile : Tile{
+		public int x { get; private set;}
+		public int y { get; private set;}
+		public RefTile(int x, int y)
+		{
+			this.x = x;
+			this.y = y;
+			
+		}
+	}
+
 	[SerializeField]
 	public int width { get; private set; }
 	[SerializeField]
@@ -12,27 +23,48 @@ public class TileMeta : System.Object
 
 	private Tile[,] tiles;
 
-	public void AddTile(int x, int y,Tile tile)
+	public void AddTile(int xpos, int ypos,Tile tile)
 	{
 		if (tile is IMultiTile) {
 			int width = ((IMultiTile)tile).GetWidth ();
 			int height = ((IMultiTile)tile).GetHeight ();
-			//TODO: instantiate for multiple tiles
+
+			for (int x = xpos; x < xpos + width; x++) {
+				for (int y = ypos; y < ypos + height; y++) {
+					tile [x, y] = new RefTile (xpos, ypos);
+				}
+			}
+			tile [xpos, ypos] = tile;
 
 		} else {
-			tiles [x, y] = tile;
+			tiles [xpos, ypos] = tile;
 		}
 	}
 
 	public void RemoveTile(int x, int y)
 	{
-		//TODO: remove tile
+		if (tiles [x, y] is RefTile) {
+			int xpos = ((RefTile)tiles [x, y]).x;
+			int ypos = ((RefTile)tiles [x, y]).y;
+
+			int width = ((IMultiTile)tiles [xpos, ypos] ).GetWidth ();
+			int height = ((IMultiTile)tiles[xpos, ypos] ).GetHeight ();
+
+			for (int xp = xpos; xp < xpos + width; xp++) {
+				for (int yp = ypos; yp < ypos + height; yp++) {
+					tiles[xp, yp] = null;
+				}
+			}
+
+
+		} else {
+			tiles [x, y] = null;
+		}
 	}
 
 	public void RemoveTile(Vector2 pos)
 	{
-		//Mathf.FloorToInt(pos.x)
-		//TODO REMOVE
+		this.RemoveTile (Mathf.FloorToInt (pos.x), Mathf.FloorToInt (pos.y));
 	}
 
 
