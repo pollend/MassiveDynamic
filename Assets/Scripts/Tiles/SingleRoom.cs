@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-public class SingleRoom
+public class SingleRoom : Tile
 {
 	public SingleRoom ()
 	{

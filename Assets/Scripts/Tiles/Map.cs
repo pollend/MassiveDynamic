@@ -8,9 +8,11 @@ public class Map : MonoBehaviour
 	}
 
 	[SerializeField]
-	public TileMeta Meta { get; private set; }
+	public TileMeta Meta;
 
 
-
+	void OnDrawGizmosSelected () {
+		Meta.OnDrawGizmosSelected (this.transform);
+	}
 
 }
