@@ -5,100 +5,133 @@ using UnityEngine;
 [System.Serializable]
 public class TileMeta : System.Object
 {
-	private class RefTile : Tile{
-		public int x { get; private set;}
-		public int y { get; private set;}
-		public RefTile(int x, int y)
-		{
-			this.x = x;
-			this.y = y;
-			
-		}
+
+	[SerializeField]
+	private int mapWidth;
+	[SerializeField]
+	private int mapHeight;
+
+	[NonSerialized]
+	private ITileContainer[,] tiles;
+
+	private Map map { get { return GameController.GetGameController ().Map;} }
+
+	public void Start()
+	{
+		tiles = new ITileContainer[mapWidth,mapHeight];
 	}
 
 
-	[SerializeField]
-	private int width;
-	[SerializeField]
-	private int height;
-
-	private Tile[,] tiles;
-
-	private Map GetMap{ get { return Map.Instance (); }}
-
 	public int GetWidth()
 	{
-		return width;
+		return mapWidth;
 	}
 
 	public int GetHeight()
 	{
-		return height;
+		return mapHeight;
 	}
 
 	public void AddTile(int xpos, int ypos,Tile tile)
 	{
-			int width = tile.GetWidth ();
-			int height = tile.GetHeight ();
+		int width = tile.GetWidth();
+		int height = tile.GetHeight();
 
-			for (int x = xpos; x < xpos + width; x++) {
-				for (int y = ypos; y < ypos + height; y++) {
-					tiles [x, y] = new RefTile (xpos, ypos);
-				}
+		for (int x = xpos; x < xpos + width; x++) {
+			for (int y = ypos; y < ypos + height; y++) {
+				tiles [x, y] = new TileRefrence (xpos, ypos);
 			}
-			tiles [xpos, ypos] = tile;
-
-
+		}
+		tiles [xpos, ypos] = new TileContainer(xpos,ypos,tile);
 	}
 
 	public void RemoveTile(int x, int y)
 	{
+		
+
 		int xpos = 0; 
 		int ypos = 0;
 
-		if (tiles [x,y] is RefTile) {
-			xpos = ((RefTile)tiles [x, y]).x;
-			ypos = ((RefTile)tiles [x, y]).y;
+		if (tiles [x,y] is TileRefrence) {
+			xpos = ((TileRefrence)tiles [x, y]).X;
+			ypos = ((TileRefrence)tiles [x, y]).Y;
 		} else {
 			xpos = x;
 			ypos = y;
 		}
-			
-		int width = tiles [xpos, ypos].GetWidth ();
-		int height = tiles [xpos, ypos].GetHeight ();
 
-		for (int xp = xpos; xp < xpos + width; xp++) {
-			for (int yp = ypos; yp < ypos + height; yp++) {
+		if (tiles [xpos, ypos] == null) {
+			return;
+		}
+
+		int tileWidth = ((TileContainer)tiles [xpos, ypos]).Tile.GetWidth();
+		int tileHeight =  ((TileContainer)tiles [xpos, ypos]).Tile.GetHeight();
+
+		for (int xp = xpos; xp < xpos + tileWidth; xp++) {
+			for (int yp = ypos; yp < ypos + tileHeight; yp++) {
 				tiles [xp, yp] = null;
 			}
 		}
-
-
 	}
+
+	public bool IsTileValid(int x, int y,Tile tile)
+	{
+
+		return IsTileValid (x, y, tile.GetWidth (), tile.GetHeight ());
+	}
+
+	public bool IsTileValid(int x, int y,int width, int height)
+	{
+		if (x >= 0 && y >= 0 && x < mapWidth && y < mapHeight && x + width < mapWidth  && y + height < mapHeight ) {
+
+			for (int xp = x; xp < x + width; xp++) {
+				for (int yp = y; yp < y + height; yp++) {
+					if (tiles [xp, yp] != null)
+						return false;
+				}
+			}
+
+			return true;
+		}
+		return false;
+	}
+
 
 	public void RemoveTile(Vector2 pos)
 	{
-		Vector3 offset = GetMap.transform.position;
-		this.RemoveTile (Mathf.FloorToInt (offset.x + pos.x), Mathf.FloorToInt (offset.y + pos.y));
+		Vector3 offset = map.Gameobject.transform.position;
+		this.RemoveTile (Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y));
 	}
 
 	public void AddTile(Vector2 pos,Tile tile)
 	{
-		Vector3 offset = GetMap.transform.position;
-		this.AddTile ( Mathf.FloorToInt (offset.x +pos.x), Mathf.FloorToInt (offset.y +pos.y),tile);
+		Vector3 offset = map.Gameobject.transform.position;
+		this.AddTile ( Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y),tile);
 	}
 
-	public void OnDrawGizmosSelected (Transform pos) {
+	public bool IsTileValid(Vector2 pos,Tile tile)
+	{
+		Vector3 offset = map.Gameobject.transform.position;
+		return IsTileValid ( Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y),tile);
+	}
+
+	public bool IsTileValid(Vector2 pos,int width, int height)
+	{
+		Vector3 offset = map.Gameobject.transform.position;
+		return IsTileValid ( Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y),width,height);
+	}
+
+	public void DrawGizmos (Transform transform) {
 		// Display the explosion radius when selected
 		Gizmos.color = Color.white;
-		Vector3 offset = GetMap.transform.position;
+		Vector3 offset = transform.position;
 
-		for (int x = 0; x <= width; x++) {
-			Gizmos.DrawLine (new Vector3 (x + offset.x, offset.y, 0),new  Vector3 (x+ offset.x, height + offset.y, 0));
+		for (int x = 0; x <= mapWidth; x++) {
+			Gizmos.DrawLine (new Vector3 (x + offset.x, offset.y, 0),new  Vector3 (x+ offset.x, mapHeight + offset.y, 0));
 		}
 			
-		for (int y = 0; y <= height; y++) {
-			Gizmos.DrawLine (new Vector3 (offset.x, y + offset.y, 0),new  Vector3 (width + offset.x, y+ offset.y, 0));
+		for (int y = 0; y <= mapHeight; y++) {
+			Gizmos.DrawLine (new Vector3 (offset.x, y + offset.y, 0),new  Vector3 (mapWidth + offset.x, y+ offset.y, 0));
 		}
 	}
 

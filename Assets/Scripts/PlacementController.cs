@@ -6,19 +6,19 @@ using System.Collections.Generic;
 public class PlacementController : System.Object
 {
 
-	private List<GameObject> placementHandles = new List<GameObject>();
+	private GameObject selected;
 
 	public void AddPlacement(Tile t)
 	{
-		if (placementHandles.Count > 0) {
-			for (int x = 0; x < placementHandles.Count; x++) {
-				UnityEngine.GameObject.Destroy (placementHandles [x]);
-			}
+		if(selected != null && selected.GetComponent<PlacementHandle>() != null)
+		{
+			UnityEngine.GameObject.Destroy (selected);
 		}
 
 		GameObject o = UnityEngine.GameObject.Instantiate (t.gameObject);
 		o.AddComponent<PlacementHandle> ();
-		placementHandles.Add (o);
+		o.name = HelperGameObject.RemoveClone (o.name);
+		selected = o;
 	}
 
 }
