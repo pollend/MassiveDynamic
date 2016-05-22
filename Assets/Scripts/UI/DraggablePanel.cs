@@ -1,12 +1,21 @@
 ﻿using System;
+using UnityEngine;
 
-namespace AssemblyCSharp
+public class DraggablePanel : MonoBehaviour
 {
-	public class DraggablePanel
+	[SerializeField]
+	private GameObject container;
+
+	public GameObject DraggableWindow { get; protected set; } 
+
+	void Start()
 	{
-		public DraggablePanel ()
-		{
-		}
+		
+		
 	}
+
+
+
 }
+
 
