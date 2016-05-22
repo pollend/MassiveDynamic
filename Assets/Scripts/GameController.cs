@@ -18,6 +18,8 @@ public class GameController : MonoBehaviour
 
 	void Start(){
 		Map.Start ();
+		UnityEngine.GameObject.Instantiate (AssetManager.Instance.UiItems.GetGameObjectByName ("MainOverlay"));
+
 	}
 
 	void OnDrawGizmos () {

@@ -1,15 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-namespace AssemblyCSharp
+
+public class TestUI : MonoBehaviour
 {
-	public class TestUI : MonoBehaviour
+	public void SetPlacment()
 	{
-		public void SetPlacment()
-		{
-			Tile t = AssetManager.Instance.Rooms.GetGameObjectByName ("Lab").GetComponent<Tile> ();
-			GameController.GetGameController().PlacementController.AddPlacement(t);
-		}
+		Tile t = AssetManager.Instance.Rooms.GetGameObjectByName ("Lab").GetComponent<Tile> ();
+		GameController.GetGameController().PlacementController.AddPlacement(t);
 	}
 }
 
