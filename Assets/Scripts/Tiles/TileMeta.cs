@@ -14,10 +14,11 @@ public class TileMeta : System.Object
 	[NonSerialized]
 	private ITileContainer[,] tiles;
 
-	private Map map { get { return GameController.GetGameController ().Map;} }
+	private Map map;
 
-	public void Start()
+	public void Start(Map map)
 	{
+		this.map = map;
 		tiles = new ITileContainer[mapWidth,mapHeight];
 	}
 
@@ -99,25 +100,25 @@ public class TileMeta : System.Object
 
 	public void RemoveTile(Vector2 pos)
 	{
-		Vector3 offset = map.Gameobject.transform.position;
+		Vector3 offset = map.gameObject.transform.position;
 		this.RemoveTile (Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y));
 	}
 
 	public void AddTile(Vector2 pos,Tile tile)
 	{
-		Vector3 offset = map.Gameobject.transform.position;
+		Vector3 offset = map.gameObject.transform.position;
 		this.AddTile ( Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y),tile);
 	}
 
 	public bool IsTileValid(Vector2 pos,Tile tile)
 	{
-		Vector3 offset = map.Gameobject.transform.position;
+		Vector3 offset = map.gameObject.transform.position;
 		return IsTileValid ( Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y),tile);
 	}
 
 	public bool IsTileValid(Vector2 pos,int width, int height)
 	{
-		Vector3 offset = map.Gameobject.transform.position;
+		Vector3 offset = map.gameObject.transform.position;
 		return IsTileValid ( Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y),width,height);
 	}
 

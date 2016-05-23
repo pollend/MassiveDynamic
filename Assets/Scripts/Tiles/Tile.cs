@@ -20,28 +20,28 @@ public class Tile : MonoBehaviour
 
 	public bool SetWidth(int width)
 	{
-		GameController controller = GameController.GetGameController ();
+		GameController controller = GameController.Instance;
 		if (controller != null) {
 			if (!controller.Map.Meta.IsTileValid (this.transform.position, width,GetHeight())) {
 				return false;
 			}
 			controller.Map.Meta.RemoveTile (GetOrigin ());
 			this.width = width;
-			GameController.GetGameController().Map.Meta.AddTile (GetOrigin(), this);
+			GameController.Instance.Map.Meta.AddTile (GetOrigin(), this);
 		}
 		return true;
 	}
 
 	public bool SetHeight(int height)
 	{
-		GameController controller = GameController.GetGameController ();
+		GameController controller = GameController.Instance;
 		if (controller != null) {
 			if (!controller.Map.Meta.IsTileValid (this.transform.position, GetWidth(),height)) {
 				return false;
 			}
 			controller.Map.Meta.RemoveTile (GetOrigin ());
 			this.height = height;
-			GameController.GetGameController().Map.Meta.AddTile (GetOrigin(), this);
+			GameController.Instance.Map.Meta.AddTile (GetOrigin(), this);
 		}
 		return true;
 	}
@@ -50,7 +50,7 @@ public class Tile : MonoBehaviour
 	void Start()
 	{
 		if (GetComponent<PlacementHandle> () == null) {
-			GameController.GetGameController().Map.Meta.AddTile (GetOrigin(), this);
+			GameController.Instance.Map.Meta.AddTile (GetOrigin(), this);
 		}
 
 	}
@@ -77,7 +77,7 @@ public class Tile : MonoBehaviour
 
 	void OnDestroy()
 	{
-		GameController controller = GameController.GetGameController ();
+		GameController controller = GameController.Instance;
 		if (controller != null) {
 			if (GetComponent<PlacementHandle> () == null) {
 				controller.Map.Meta.RemoveTile (GetOrigin ());

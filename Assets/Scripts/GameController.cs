@@ -3,27 +3,31 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+	public static GameController Instance;
+
 	[SerializeField]
 	public PlacementController PlacementController;
-	[SerializeField]
-	public Map Map;
 
-	public static GameController GetGameController()
+	public Map Map{ get; private set; }
+
+	[SerializeField]
+	private GameObject MapGameObject;
+
+
+	void Awake()
 	{
-		if (!GameObject.Find ("_root"))
-			return null;
-		
-		return GameObject.Find ("_root").GetComponent<GameController> ();
+		GameController.Instance = this;
 	}
 
 	void Start(){
-		Map.Start ();
+		Map = MapGameObject.GetComponent<Map> ();
+
+		//Create Overlay
 		UnityEngine.GameObject.Instantiate (AssetManager.Instance.UiItems.GetGameObjectByName ("MainOverlay"));
 
 	}
 
 	void OnDrawGizmos () {
-		Map.DrawGizmos ();
 	}
 	
 }

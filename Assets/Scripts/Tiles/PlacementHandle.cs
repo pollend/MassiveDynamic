@@ -12,14 +12,14 @@ public class PlacementHandle : MonoBehaviour
 
 		this.gameObject.transform.position =  p;
 
-		if (GameController.GetGameController().Map.Meta.IsTileValid (tile.GetOrigin(),tile)) {
+		if (GameController.Instance.Map.Meta.IsTileValid (tile.GetOrigin(),tile)) {
 			if (Input.GetButtonUp ("Placement")) {
 
 				//create a new instance for the map
 				GameObject room = AssetManager.Instance.Rooms.GetGameObjectByName (this.name);
 				GameObject o = (GameObject)UnityEngine.Object.Instantiate (room,this.transform.position,Quaternion.identity);
 				o.name = HelperGameObject.RemoveClone (o.name);
-				o.transform.parent = GameController.GetGameController().Map.Gameobject.transform;
+				o.transform.parent = GameController.Instance.Map.gameObject.transform;
 
 				UnityEngine.Object.Destroy (this.gameObject);
 			}

@@ -1,24 +1,19 @@
 ﻿using System;
 using UnityEngine;
 
-[System.Serializable]
-public class Map : System.Object
+public class Map : MonoBehaviour
 {
-	
-	public GameObject Gameobject;
 
 	[SerializeField]
 	public TileMeta Meta;
 
-	public void Start()
-	{
-		Meta.Start ();
+	void Start(){
+		Meta.Start (this);
 	}
 
 
-	public void DrawGizmos () {
-		if(this.Gameobject != null)
-			Meta.DrawGizmos (Gameobject.transform);
+	void OnDrawGizmos () {
+		Meta.DrawGizmos (this.transform);
 	}
 
 }
