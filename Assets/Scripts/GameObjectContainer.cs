@@ -7,15 +7,16 @@ using System.Text;
 [CreateAssetMenuAttribute]
 public class GameObjectContainer : ScriptableObject
 {
+	
 	[SerializeField]
 	private GameObject[] gameObjects;
-	private Dictionary<string,GameObject> _gameObjectAssoc = new Dictionary<string, GameObject>();
+	private Dictionary<string,GameObject> gameObjectAssoc = new Dictionary<string, GameObject>();
 
 	void OnEnable()
 	{
-		if(_gameObjectAssoc.Count == 0)
+		if(gameObjectAssoc.Count == 0)
 			for (int x = 0; x < gameObjects.Length; x++) {
-				_gameObjectAssoc.Add (gameObjects [x].name, gameObjects [x]);
+				gameObjectAssoc.Add (gameObjects [x].name, gameObjects [x]);
 			}
 	}
 
@@ -28,14 +29,14 @@ public class GameObjectContainer : ScriptableObject
 
 	public GameObject GetGameObjectByName(string name)
 	{
-		if (!_gameObjectAssoc.ContainsKey (name))
+		if (!gameObjectAssoc.ContainsKey (name))
 			UnityEngine.Debug.Log ("coulden't find in collection:" + name);
-		return _gameObjectAssoc [name];
+		return gameObjectAssoc [name];
 	}
 
 	public GameObject GetGameObjectByClone(GameObject go)
 	{
-		return _gameObjectAssoc[HelperGameObject.RemoveClone (go.name)];
+		return gameObjectAssoc[HelperGameObject.RemoveClone (go.name)];
 	}
 
 

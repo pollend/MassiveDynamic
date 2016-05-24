@@ -9,7 +9,6 @@ public class PanelHeader : MonoBehaviour, IEventSystemHandler,IDragHandler,IPoin
 	public PanelFrame panelFrame{ get; private set; }
 
 	private Vector2 localPosition = Vector2.zero;
-	private Vector2 oldPosition = Vector2.zero;
 
 	void Awake()
 	{
@@ -31,11 +30,12 @@ public class PanelHeader : MonoBehaviour, IEventSystemHandler,IDragHandler,IPoin
 
 
 	}
+		
 
 	public void OnPointerDown (PointerEventData eventData)
 	{
+		UIWindowController.Instance.BringToFront (panelFrame.panel);
 		RectTransformUtility.ScreenPointToLocalPointInRectangle (rectTransform, eventData.position, eventData.pressEventCamera, out localPosition);
-		oldPosition = panelFrame.GetComponent<RectTransform> ().position;
 	}
 
 

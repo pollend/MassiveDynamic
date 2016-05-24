@@ -7,12 +7,7 @@ public class UIWindowController : MonoBehaviour
 {
 	public static UIWindowController Instance;
 
-	[SerializeField]
-	private GameObject frameGameObject;
-
 	private List<Panel> panels = new List<Panel> ();
-
-
 
 	void Awake()
 	{
@@ -35,22 +30,27 @@ public class UIWindowController : MonoBehaviour
 
 	private void reorder()
 	{
+		for (int x = panels.Count-1; x >= 0; x--) {
+			panels [x].PanelFrame.GetComponent<Canvas> ().sortingOrder = x;
+		}
 	}
 
 		
-	public PanelFrame RegisterPanel(Panel panel)
+	public PanelFrame SpawnPanel(Panel panel)
 	{
-		PanelFrame frame =  UnityEngine.GameObject.Instantiate(frameGameObject).GetComponent<PanelFrame>();
+		PanelFrame frame =  UnityEngine.GameObject.Instantiate(UiAssets.Instance.FrameGameObject).GetComponent<PanelFrame>();
 		frame.SetPanel (panel);
 		panels.Add (panel);
 		frame.transform.SetParent (this.transform);
-
-
 		return frame;
 		
 	}
 
-
+	public void RemovePanel(Panel panel)
+	{
+		panels.Remove (panel);
+		GameObject.Destroy (panel.PanelFrame.gameObject);
+	}
 
 }
 

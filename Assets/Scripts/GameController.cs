@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
 		Map = MapGameObject.GetComponent<Map> ();
 
 		//Create Overlay
-		UnityEngine.GameObject.Instantiate (AssetManager.Instance.UiItems.GetGameObjectByName ("MainOverlay"));
+		UnityEngine.GameObject.Instantiate (UiAssets.Instance.MainWindoGameObject);
 
 	}
 

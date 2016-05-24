@@ -4,10 +4,7 @@ using UnityEngine.EventSystems;
 
 public class PanelFrame : MonoBehaviour, IEventSystemHandler,IPointerDownHandler,IPointerUpHandler
 {
-	private Panel panel;
-
-	[SerializeField]
-	private GameObject container;
+	public Panel panel { get; private set; }
 
 	void Update()
 	{
@@ -16,21 +13,18 @@ public class PanelFrame : MonoBehaviour, IEventSystemHandler,IPointerDownHandler
 	public void SetPanel(Panel p)
 	{
 		this.panel = p;
-		this.panel.transform.SetParent (container.transform);
+		this.panel.SetFrame (this);
 
-		RectTransform rectTransform = this.panel.GetComponent<RectTransform> ();
-		rectTransform.anchorMin = new Vector2 ();
-		rectTransform.anchorMax = new Vector2 (1, 1);
-		rectTransform.pivot = new Vector2 (.5f, .5f);
-
-		rectTransform.offsetMax = new Vector2(0,0);
-		rectTransform.offsetMin = new Vector2(0,0);
 
 	}
-
+	public void Close()
+	{
+		UIWindowController.Instance.RemovePanel (panel);
+	}
 
 	public void OnPointerDown (PointerEventData eventData)
 	{
+		UIWindowController.Instance.BringToFront (panel);
 	}
 
 	public void OnPointerUp (PointerEventData eventData)
