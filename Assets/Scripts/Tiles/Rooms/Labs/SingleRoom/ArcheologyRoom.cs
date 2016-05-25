@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ArcheologyRoom : Tile {
+public class ArcheologyRoom : Lab {
 
 	// Use this for initialization
 	void Start () {

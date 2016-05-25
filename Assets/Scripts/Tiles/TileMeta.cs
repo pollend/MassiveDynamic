@@ -35,15 +35,15 @@ public class TileMeta : System.Object
 
 	public void AddTile(int xpos, int ypos,Tile tile)
 	{
-		int width = tile.GetWidth();
-		int height = tile.GetHeight();
+		int width = tile.Width;
+		int height = tile.Height;
 
 		for (int x = xpos; x < xpos + width; x++) {
 			for (int y = ypos; y < ypos + height; y++) {
 				tiles [x, y] = new TileRefrence (xpos, ypos);
 			}
 		}
-		tiles [xpos, ypos] = new TileContainer(xpos,ypos,tile);
+		tiles [xpos, ypos] = new TileContainer(tile,xpos,ypos);
 	}
 
 	public void RemoveTile(int x, int y)
@@ -65,8 +65,8 @@ public class TileMeta : System.Object
 			return;
 		}
 
-		int tileWidth = ((TileContainer)tiles [xpos, ypos]).Tile.GetWidth();
-		int tileHeight =  ((TileContainer)tiles [xpos, ypos]).Tile.GetHeight();
+		int tileWidth = ((TileContainer)tiles [xpos, ypos]).Tile.Width;
+		int tileHeight =  ((TileContainer)tiles [xpos, ypos]).Tile.Height;
 
 		for (int xp = xpos; xp < xpos + tileWidth; xp++) {
 			for (int yp = ypos; yp < ypos + tileHeight; yp++) {
@@ -78,7 +78,7 @@ public class TileMeta : System.Object
 	public bool IsTileValid(int x, int y,Tile tile)
 	{
 
-		return IsTileValid (x, y, tile.GetWidth (), tile.GetHeight ());
+		return IsTileValid (x, y, tile.Width, tile.Height);
 	}
 
 	public bool IsTileValid(int x, int y,int width, int height)

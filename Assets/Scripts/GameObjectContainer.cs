@@ -20,7 +20,7 @@ public class GameObjectContainer : ScriptableObject
 			}
 	}
 
-	public ReadOnlyCollection<GameObject> GetGameObjects {
+	public ReadOnlyCollection<GameObject> GameObjects {
 		get{
 			return new ReadOnlyCollection<GameObject> (gameObjects);
 		}

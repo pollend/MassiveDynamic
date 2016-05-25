@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class LabSelectPanel : Panel
 {
@@ -14,9 +15,9 @@ public class LabSelectPanel : Panel
 	{
 		int index = 0;
 		float height = 0;
-		foreach (var o in AssetManager.Instance.Rooms.GetGameObjects) {
+		foreach (KeyValuePair<Type, Tile> o in AssetManager.Instance.Tiles) {
 			GameObject item = UnityEngine.GameObject.Instantiate (listItem);
-			item.GetComponent<LabPanelItem> ().Tile = o;
+			item.GetComponent<LabPanelItem> ().Tile = o.Value;
 
 			item.transform.SetParent (content.transform);
 

@@ -1,12 +1,12 @@
 ﻿using System;
+using ProtoBuf;
 
-namespace AssemblyCSharp
+[ProtoContract]
+[ProtoInclude(1,typeof(SampleLab))]
+public class Lab : Tile
 {
-	public class Lab
+	public Lab ()
 	{
-		public Lab ()
-		{
-		}
 	}
 }
 

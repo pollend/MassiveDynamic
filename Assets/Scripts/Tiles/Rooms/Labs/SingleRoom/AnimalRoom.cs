@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AnimalRoom : Tile {
+public class AnimalRoom : Lab {
 
 	// Use this for initialization
 	void Start () {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DiningHallRoom : Tile {
+public class DiningHallRoom: Tile{
 
 	// Use this for initialization
 	void Start () {

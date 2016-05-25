@@ -13,6 +13,11 @@ public class GameController : MonoBehaviour
 	[SerializeField]
 	private GameObject MapGameObject;
 
+	public Seralizer seralizer = new Seralizer();
+
+
+
+
 
 	void Awake()
 	{
@@ -20,12 +25,19 @@ public class GameController : MonoBehaviour
 	}
 
 	void Start(){
+
+		AssetManager.Instance.Initialize ();
+
+		//seralizer.RegisterGameObject (new TestSeralization ());
 		Map = MapGameObject.GetComponent<Map> ();
 
 		//Create Overlay
 		UnityEngine.GameObject.Instantiate (UiAssets.Instance.MainWindoGameObject);
 
+		seralizer.Load ("test.bin");
+
 	}
+
 
 	void OnDrawGizmos () {
 	}

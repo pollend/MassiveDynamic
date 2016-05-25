@@ -9,6 +9,11 @@ public class MainOverlay : MonoBehaviour
 		
 	}
 
+	public void TestSave()
+	{
+		GameController.Instance.seralizer.Save ("test.bin");
+	}
+
 }
 
 

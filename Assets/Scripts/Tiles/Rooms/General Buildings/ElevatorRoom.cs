@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ElevatorRoom : Tile {
 
+
+
 	// Use this for initialization
 	void Start () {
 	

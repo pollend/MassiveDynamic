@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MorgueRoom  : Tile {
+public class MorgueRoom  : Lab {
 
 	// Use this for initialization
 	void Start () {
