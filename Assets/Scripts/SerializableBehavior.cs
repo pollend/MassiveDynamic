@@ -5,13 +5,20 @@ using ProtoBuf.Meta;
 using System;
 
 [ProtoContract]
-[ProtoInclude(1,typeof(Tile))]
+[ProtoInclude(2,typeof(Map))]
+[ProtoInclude(3,typeof(Tile))]
 public class SerializableBehavior : MonoBehaviour
 {
+	protected virtual bool IsRegistered()
+	{
+		return true;
+	}
 
 	// Use this for initialization
 	protected virtual void Start ()
 	{
+		if(this.IsRegistered())
+		GameController.Instance.seralizer.RegisterGameObject (this);
 	}
 	
 	// Update is called once per frame
@@ -22,6 +29,8 @@ public class SerializableBehavior : MonoBehaviour
 
 
 	protected virtual void OnDestroy() {
+
+		if(this.IsRegistered())
 		GameController.Instance.seralizer.DestroyGameObject (this);
 	}
 

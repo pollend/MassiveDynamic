@@ -14,22 +14,12 @@ public class Tile: SerializableBehavior
 	[SerializeField]
 	private int height;
 
-	[ProtoMember(5)]
-	private float _xPos{
-		get{return this.transform.position.x;}
-		set{
-			Vector3 temp = this.transform.position;
-			this.transform.position = new Vector3 (value, temp.y, temp.z );}
-	}
+	public TileContainer tileContainer { get; private set; }
 
-	[ProtoMember(6)]
-	private float _yPos{
-		get{return this.transform.position.y;}
-		set{
-			Vector3 temp = this.transform.position;
-			this.transform.position = new Vector3 (temp.x, value, temp.z );}
+	protected override bool IsRegistered ()
+	{
+		return false;
 	}
-
 
 	[ProtoMember(3)]
 	public int Width {
@@ -37,12 +27,11 @@ public class Tile: SerializableBehavior
 		set { 
 			GameController controller = GameController.Instance;
 			if (controller != null) {
-				if (!controller.Map.Meta.IsTileValid (this.transform.position, width, Height)) {
+				if (!controller.Map.IsTileValid (this, width, Height)) {
 					return;
 				}
-				controller.Map.Meta.RemoveTile (GetOrigin ());
 				this.width = value;
-				GameController.Instance.Map.Meta.AddTile (GetOrigin (), this);
+				GameController.Instance.Map.UpdateTile (this);
 			}
 		}
 	}
@@ -53,29 +42,26 @@ public class Tile: SerializableBehavior
 		set{
 			GameController controller = GameController.Instance;
 			if (controller != null) {
-				if (!controller.Map.Meta.IsTileValid (this.transform.position, width,height)) {
+				if (!controller.Map.IsTileValid (this, width,height)) {
 					return;
 				}
-				controller.Map.Meta.RemoveTile (GetOrigin ());
 				this.height = value;
-				GameController.Instance.Map.Meta.AddTile (GetOrigin(), this);
+				GameController.Instance.Map.UpdateTile (this);
 			}
 
 		}
 	}
 
-	protected override void Start()
+	protected virtual void Start()
 	{
-		GameController.Instance.seralizer.RegisterGameObject (this);
 		if (GetComponent<PlacementHandle> () == null) {
-			GameController.Instance.Map.Meta.AddTile (GetOrigin(), this);
+			GameController.Instance.Map.RegisterTile(this);
 		}
-		base.Start ();
 	}
 
 
 
-	void OnDrawGizmos ()
+	protected virtual void OnDrawGizmos ()
 	{
 		// Display the explosion radius when selected
 		Gizmos.color = Color.blue;
@@ -88,36 +74,28 @@ public class Tile: SerializableBehavior
 		for (int y = 0; y <= Height; y++) {
 			Gizmos.DrawLine (new Vector3 (pos.x, y + pos.y, pos.z - .05f),new  Vector3 (Width + pos.x, y+ pos.y, pos.z - .05f));
 		}
-		Gizmos.DrawSphere (GetOrigin(), .09f);
+		//Gizmos.DrawSphere (this.GetRelativeOrigin() + this.transform.position, .09f);
 
 	}
 
-	protected override void OnDestroy()
+	protected virtual void OnDestroy()
 	{
 		GameController controller = GameController.Instance;
 		if (controller != null) {
 			if (GetComponent<PlacementHandle> () == null) {
-				controller.Map.Meta.RemoveTile (GetOrigin ());
+				controller.Map.Removetile (this);
 			}
 		}
-		base.OnDestroy ();
-	}
-
-	public override void OnDeserialize ()
-	{
-		this.transform.parent = GameController.Instance.Map.gameObject.transform;
-
-		base.OnDeserialize ();
 	}
 
 
-	void OnApplicationQuit() {
+	protected virtual void OnApplicationQuit() {
 		OnDestroy ();
 	}
 
-	public Vector2 GetOrigin()
+	public virtual Vector2 GetRelativeOrigin()
 	{
-		return this.transform.position + new Vector3(.5f,.5f);
+		return new Vector3(.5f,.5f);
 	}
 
 

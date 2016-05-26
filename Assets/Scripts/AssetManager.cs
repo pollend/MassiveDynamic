@@ -24,13 +24,14 @@ public class AssetManager: ScriptableSingleton<AssetManager>
 			//register object as being seralizible
 			GameController.Instance.seralizer.RegisterSeralizability (item);
 
-			if (item.GetType().IsSubclassOf(typeof(Lab)))
+			if (item is Lab)
 				Labs.Add (item.GetType (), (Lab)item);
 			if (item is Tile)
 				Tiles.Add (item.GetType (), (Tile)item);
 			Serializible.Add (item.GetType (), item);
 			
 		}
+
 	}
 
 /*	public T Create<T>() where T: SerializableBehavior,new()

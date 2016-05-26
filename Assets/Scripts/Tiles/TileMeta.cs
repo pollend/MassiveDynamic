@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 [System.Serializable]
@@ -14,11 +15,8 @@ public class TileMeta : System.Object
 	[NonSerialized]
 	private ITileContainer[,] tiles;
 
-	private Map map;
-
-	public void Start(Map map)
+	public void Start()
 	{
-		this.map = map;
 		tiles = new ITileContainer[mapWidth,mapHeight];
 	}
 
@@ -33,7 +31,7 @@ public class TileMeta : System.Object
 		return mapHeight;
 	}
 
-	public void AddTile(int xpos, int ypos,Tile tile)
+	public TileContainer AddTile(int xpos, int ypos,Tile tile)
 	{
 		int width = tile.Width;
 		int height = tile.Height;
@@ -44,12 +42,11 @@ public class TileMeta : System.Object
 			}
 		}
 		tiles [xpos, ypos] = new TileContainer(tile,xpos,ypos);
+		return (TileContainer)tiles [xpos, ypos];
 	}
 
 	public void RemoveTile(int x, int y)
 	{
-		
-
 		int xpos = 0; 
 		int ypos = 0;
 
@@ -75,12 +72,6 @@ public class TileMeta : System.Object
 		}
 	}
 
-	public bool IsTileValid(int x, int y,Tile tile)
-	{
-
-		return IsTileValid (x, y, tile.Width, tile.Height);
-	}
-
 	public bool IsTileValid(int x, int y,int width, int height)
 	{
 		if (x >= 0 && y >= 0 && x < mapWidth && y < mapHeight && x + width < mapWidth  && y + height < mapHeight ) {
@@ -96,31 +87,7 @@ public class TileMeta : System.Object
 		}
 		return false;
 	}
-
-
-	public void RemoveTile(Vector2 pos)
-	{
-		Vector3 offset = map.gameObject.transform.position;
-		this.RemoveTile (Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y));
-	}
-
-	public void AddTile(Vector2 pos,Tile tile)
-	{
-		Vector3 offset = map.gameObject.transform.position;
-		this.AddTile ( Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y),tile);
-	}
-
-	public bool IsTileValid(Vector2 pos,Tile tile)
-	{
-		Vector3 offset = map.gameObject.transform.position;
-		return IsTileValid ( Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y),tile);
-	}
-
-	public bool IsTileValid(Vector2 pos,int width, int height)
-	{
-		Vector3 offset = map.gameObject.transform.position;
-		return IsTileValid ( Mathf.FloorToInt (pos.x - offset.x), Mathf.FloorToInt (pos.y - offset.y),width,height);
-	}
+		
 
 	public void DrawGizmos (Transform transform) {
 		// Display the explosion radius when selected

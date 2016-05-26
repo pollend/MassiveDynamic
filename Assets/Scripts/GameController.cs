@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using ProtoBuf.Meta;
 
 public class GameController : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class GameController : MonoBehaviour
 
 		//seralizer.RegisterGameObject (new TestSeralization ());
 		Map = MapGameObject.GetComponent<Map> ();
+		RuntimeTypeModel.Default[typeof(Map)].SetFactory(typeof(Map).GetMethod("Create"));	
 
 		//Create Overlay
 		UnityEngine.GameObject.Instantiate (UiAssets.Instance.MainWindoGameObject);

@@ -13,10 +13,10 @@ public class Seralizer
 	public Seralizer ()
 	{
 		//register unity types
-	/*	MetaType vector2Type =  RuntimeTypeModel.Default.Add(typeof(Vector2),false);
+		/*MetaType vector2Type =  RuntimeTypeModel.Default.Add(typeof(Vector2),false);
 		vector2Type.AddField (1, "x");
-		vector2Type.AddField (2, "y");
-*/
+		vector2Type.AddField (2, "y");*/
+
 		RuntimeTypeModel.Default.Add(typeof(Vector3),false).Add(1, "x").Add(2, "y").Add(3, "z");
 		//vector3Type.AddField (7, "w");
 
@@ -55,8 +55,6 @@ public class Seralizer
 	public void Save(string name)
 	{
 		using (var file = File.Create(Application.persistentDataPath +Path.DirectorySeparatorChar + name)) {
-
-
 			Serializer.Serialize(file, seralizbleCollection.ToArray());
 		}
 	}
@@ -80,8 +78,10 @@ public class Seralizer
 
 	public static object Create(Type t)
 	{
-		if (!AssetManager.Instance.Serializible.ContainsKey (t))
+		if (!AssetManager.Instance.Serializible.ContainsKey (t)) {
 			return null;
+		}
+		
 		GameObject gameObject =  GameObject.Instantiate (AssetManager.Instance.Serializible [t].gameObject);
 		((SerializableBehavior)gameObject.GetComponent (t)).OnDeserialize ();
 

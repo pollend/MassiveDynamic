@@ -11,7 +11,7 @@ public class LabPanelItem : MonoBehaviour
 	void Start()
 	{
 		//TODO: change this to use not just the text
-		this.transform.Find ("Display").gameObject.GetComponent<Text> ().text = ((SerializableBehavior)Tile).gameObject.name;
+		this.transform.Find ("Display").gameObject.GetComponent<Text> ().text = Tile.gameObject.name;
 	}
 
 	public void OnClick()

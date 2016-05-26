@@ -15,7 +15,7 @@ public class PlacementController : System.Object
 			UnityEngine.GameObject.Destroy (selected);
 		}
 
-		GameObject o = UnityEngine.GameObject.Instantiate (((SerializableBehavior)t).gameObject);
+		GameObject o = UnityEngine.GameObject.Instantiate (t.gameObject);
 		o.AddComponent<PlacementHandle> ();
 		o.name = HelperGameObject.RemoveClone (o.name);
 		selected = o;
