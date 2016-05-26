@@ -17,10 +17,10 @@ public class Seralizer
 		vector2Type.AddField (1, "x");
 		vector2Type.AddField (2, "y");*/
 
-		RuntimeTypeModel.Default.Add(typeof(Vector3),false).Add(1, "x").Add(2, "y").Add(3, "z");
+		//RuntimeTypeModel.Default.Add(typeof(Vector3),true).Add(1, "x").Add(2, "y").Add(3, "z");
 		//vector3Type.AddField (7, "w");
 
-		RuntimeTypeModel.Default.Add (typeof(Transform),false).AddField (1, "position");
+		//RuntimeTypeModel.Default.Add (typeof(Transform),false).AddField (1, "position");
 
 	
 	}

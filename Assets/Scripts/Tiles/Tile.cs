@@ -7,6 +7,11 @@ using ProtoBuf;
 [ProtoInclude(2,typeof(Lab))]
 public class Tile: SerializableBehavior
 {
+	[ProtoMember(5)]
+	private SerializableVector3 _position{ 
+		get{ return  new SerializableVector3(this.transform.TransformPoint (Vector3.zero));} 
+		set{ this.transform.position = value.Vector3(); } 
+	}
 
 	[SerializeField]
 	private int width;
@@ -52,7 +57,7 @@ public class Tile: SerializableBehavior
 		}
 	}
 
-	protected virtual void Start()
+	protected override void Start()
 	{
 		if (GetComponent<PlacementHandle> () == null) {
 			GameController.Instance.Map.RegisterTile(this);
@@ -78,7 +83,7 @@ public class Tile: SerializableBehavior
 
 	}
 
-	protected virtual void OnDestroy()
+	protected override void OnDestroy()
 	{
 		GameController controller = GameController.Instance;
 		if (controller != null) {

@@ -20,9 +20,6 @@ public class Map : SerializableBehavior
 		} 
 		set { 
 			foreach (TileContainer t in value) {
-
-				t.Tile.transform.position = this.transform.position + new Vector3 (t.X, t.Y, 0);
-
 				this.RegisterTile (t.Tile);
 			}
 		} 
