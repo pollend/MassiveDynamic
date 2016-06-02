@@ -69,7 +69,7 @@ public class TileMeta : System.Object
 			ypos = y;
 		}
 		if (tiles [xpos, ypos] == null) {
-			return;
+			return null;
 		}
 
 		return ((TileContainer)tiles [xpos, ypos]).Tile;

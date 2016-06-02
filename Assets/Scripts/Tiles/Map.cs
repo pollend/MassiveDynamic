@@ -88,6 +88,8 @@ public class Map : SerializableBehavior
 
 	public void Removetile(Tile t)
 	{
+		if (!tiles.ContainsKey (t))
+			return;
 		Meta.RemoveTile (tiles [t].X, tiles [t].Y);
 		t.transform.parent = null;
 	}
