@@ -33,16 +33,47 @@ public class TileMeta : System.Object
 
 	public TileContainer AddTile(int xpos, int ypos,Tile tile)
 	{
+		
 		int width = tile.Width;
 		int height = tile.Height;
+
+		TileContainer container = new TileContainer (tile, xpos, ypos, width, height);
+		//destory the object if it's not valid
+		if (!tile.IsValid (container)) {
+			UnityEngine.GameObject.Destroy (tile.gameObject);
+			return null;
+		}
 
 		for (int x = xpos; x < xpos + width; x++) {
 			for (int y = ypos; y < ypos + height; y++) {
 				tiles [x, y] = new TileRefrence (xpos, ypos);
 			}
 		}
-		tiles [xpos, ypos] = new TileContainer(tile,xpos,ypos);
+		tiles [xpos, ypos] = container;
 		return (TileContainer)tiles [xpos, ypos];
+	}
+
+	public Tile GetTile(int x, int y)
+	{
+		if (!IsContainedInBoard (x, y, 1, 1)) {
+			return null;
+		}
+		int xpos = 0; 
+		int ypos = 0;
+
+		if (tiles [x,y] is TileRefrence) {
+			xpos = ((TileRefrence)tiles [x, y]).X;
+			ypos = ((TileRefrence)tiles [x, y]).Y;
+		} else {
+			xpos = x;
+			ypos = y;
+		}
+		if (tiles [xpos, ypos] == null) {
+			return;
+		}
+
+		return ((TileContainer)tiles [xpos, ypos]).Tile;
+
 	}
 
 	public void RemoveTile(int x, int y)
@@ -74,7 +105,7 @@ public class TileMeta : System.Object
 
 	public bool IsTileValid(int x, int y,int width, int height)
 	{
-		if (x >= 0 && y >= 0 && x < mapWidth && y < mapHeight && x + width < mapWidth  && y + height < mapHeight ) {
+		if (IsContainedInBoard(x,y,width,height)) {
 
 			for (int xp = x; xp < x + width; xp++) {
 				for (int yp = y; yp < y + height; yp++) {
@@ -83,6 +114,14 @@ public class TileMeta : System.Object
 				}
 			}
 
+			return true;
+		}
+		return false;
+	}
+
+	private bool IsContainedInBoard(int x, int y, int width, int height)
+	{
+		if (x >= 0 && y >= 0 && x < mapWidth && y < mapHeight && x + width - 1 < mapWidth  && y + height - 1 < mapHeight ) {
 			return true;
 		}
 		return false;

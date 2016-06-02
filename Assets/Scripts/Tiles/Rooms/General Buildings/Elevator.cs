@@ -3,7 +3,7 @@ using ProtoBuf;
 
 
 [ProtoContract]
-public class Elevator : Tile
+public class Elevator : Structure
 {
 	protected override void OnDestroy ()
 	{

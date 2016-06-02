@@ -34,6 +34,16 @@ public class Map : SerializableBehavior
 		base.Start ();
 	}
 
+	public TileContainer GetTile(Tile t)
+	{
+		TileContainer container = null;
+
+		if (tiles.TryGetValue (t,out container)) {
+			return container;
+		}
+		return null;
+	}
+
 	public bool IsTileValid(Tile t,int width, int height)
 	{
 		Vector2 relative = t.GetRelativeOrigin ();
@@ -52,6 +62,8 @@ public class Map : SerializableBehavior
 		Vector2 relative = t.GetRelativeOrigin ();
 		Vector3 pos = t.transform.TransformPoint(-this.transform.position) + new Vector3(relative.x,relative.y,0);
 		TileContainer container =  Meta.AddTile (Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), t);
+		if (container == null)
+			return;
 		tiles.Add (t, container);
 	}
 
@@ -66,6 +78,11 @@ public class Map : SerializableBehavior
 			TileContainer container = Meta.AddTile (Mathf.FloorToInt (pos.x), Mathf.FloorToInt (pos.y), t);
 			tiles.Add (t, container);
 		}
+	}
+
+	public Tile GetTile(int x, int y)
+	{
+		return Meta.GetTile (x, y);
 	}
 		
 

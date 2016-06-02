@@ -3,7 +3,7 @@ using ProtoBuf;
 
 [ProtoContract]
 [ProtoInclude(1,typeof(SampleLab))]
-public class Lab : Tile
+public class Lab : Structure
 {
 	public Lab ()
 	{

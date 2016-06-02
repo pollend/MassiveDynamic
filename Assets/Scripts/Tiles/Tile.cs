@@ -3,11 +3,10 @@ using UnityEngine;
 using ProtoBuf;
 
 [ProtoContract]
-[ProtoInclude(1,typeof(Elevator))]
-[ProtoInclude(2,typeof(Lab))]
+[ProtoInclude(1,typeof(Structure))]
 public class Tile: SerializableBehavior
 {
-	[ProtoMember(5)]
+	[ProtoMember(2)]
 	private SerializableVector3 _position{ 
 		get{ return  new SerializableVector3(this.transform.TransformPoint (Vector3.zero));} 
 		set{ this.transform.position = value.Vector3(); } 
@@ -19,12 +18,14 @@ public class Tile: SerializableBehavior
 	[SerializeField]
 	private int height;
 
-	public TileContainer tileContainer { get; private set; }
+	public TileContainer TileContainer { get; set; }
 
 	protected override bool IsRegistered ()
 	{
 		return false;
 	}
+
+	public TileContainer Container{ get; private set; }
 
 	[ProtoMember(3)]
 	public int Width {
@@ -64,6 +65,11 @@ public class Tile: SerializableBehavior
 		}
 	}
 
+	public virtual bool IsValid(TileContainer container)
+	{
+		
+		return true;
+	}
 
 
 	protected virtual void OnDrawGizmos ()
