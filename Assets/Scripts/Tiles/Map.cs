@@ -28,11 +28,13 @@ public class Map : SerializableBehavior
 	[SerializeField]
 	private TileMeta Meta;
 
-	protected override void Start ()
+	protected override void Awake ()
 	{
+
 		Meta.Start();
-		base.Start ();
+		base.Awake ();
 	}
+
 
 	public TileContainer GetTile(Tile t)
 	{

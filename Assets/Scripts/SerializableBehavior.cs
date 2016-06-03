@@ -14,6 +14,10 @@ public class SerializableBehavior : MonoBehaviour
 		return true;
 	}
 
+	protected virtual void Awake()
+	{
+	}
+
 	// Use this for initialization
 	protected virtual void Start ()
 	{
