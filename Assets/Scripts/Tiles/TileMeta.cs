@@ -37,19 +37,12 @@ public class TileMeta : System.Object
 		int width = tile.Width;
 		int height = tile.Height;
 
-		TileContainer container = new TileContainer (tile, xpos, ypos, width, height);
-		//destory the object if it's not valid
-		if (!tile.IsValid (container)) {
-			UnityEngine.GameObject.Destroy (tile.gameObject);
-			return null;
-		}
-
 		for (int x = xpos; x < xpos + width; x++) {
 			for (int y = ypos; y < ypos + height; y++) {
 				tiles [x, y] = new TileRefrence (xpos, ypos);
 			}
 		}
-		tiles [xpos, ypos] = container;
+		tiles [xpos, ypos] = new TileContainer (tile, xpos, ypos, width, height);
 		return (TileContainer)tiles [xpos, ypos];
 	}
 
@@ -103,8 +96,11 @@ public class TileMeta : System.Object
 		}
 	}
 
-	public bool IsTileValid(int x, int y,int width, int height)
+	public bool IsTileValid(Tile t,int x, int y,int width, int height)
 	{
+		TileContainer container = new TileContainer (t, x, y, width, height);
+
+		
 		if (IsContainedInBoard(x,y,width,height)) {
 
 			for (int xp = x; xp < x + width; xp++) {
@@ -113,6 +109,9 @@ public class TileMeta : System.Object
 						return false;
 				}
 			}
+
+			if (t.IsValid (container))
+				return true;
 
 			return true;
 		}
@@ -128,17 +127,16 @@ public class TileMeta : System.Object
 	}
 		
 
-	public void DrawGizmos (Transform transform) {
+	public void DrawGizmos () {
 		// Display the explosion radius when selected
 		Gizmos.color = Color.white;
-		Vector3 offset = transform.position;
-
+	
 		for (int x = 0; x <= mapWidth; x++) {
-			Gizmos.DrawLine (new Vector3 (x + offset.x, offset.y, 0),new  Vector3 (x+ offset.x, mapHeight + offset.y, 0));
+			Gizmos.DrawLine (new Vector3 (x , 0, 0),new  Vector3 (x, mapHeight , 0));
 		}
 			
 		for (int y = 0; y <= mapHeight; y++) {
-			Gizmos.DrawLine (new Vector3 (offset.x, y + offset.y, 0),new  Vector3 (mapWidth + offset.x, y+ offset.y, 0));
+			Gizmos.DrawLine (new Vector3 (0, y , 0),new  Vector3 (mapWidth , y, 0));
 		}
 	}
 

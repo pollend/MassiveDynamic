@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DiningHallRoom: Tile{
+public class DiningHallRoom: Structure{
 
 	// Use this for initialization
 	protected override void Start () {

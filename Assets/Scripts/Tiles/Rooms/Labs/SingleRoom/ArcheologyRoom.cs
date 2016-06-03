@@ -10,8 +10,6 @@ public class ArcheologyRoom : Lab {
 		base.Start ();
 	}
 
-
-
 	// Update is called once per frame
 	protected override void Update () {
 		base.Update ();

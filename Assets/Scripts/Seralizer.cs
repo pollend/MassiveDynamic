@@ -8,7 +8,8 @@ using System.Collections.Generic;
 
 public class Seralizer
 {
-	private List<SerializableBehavior> seralizbleCollection = new List<SerializableBehavior> ();
+	private SaveData saveData = new SaveData ();
+
 
 	public Seralizer ()
 	{
@@ -32,15 +33,15 @@ public class Seralizer
 
 	public void RegisterGameObject(SerializableBehavior behavior) 
 	{	
-		if (seralizbleCollection.Contains (behavior)) {
+		if (saveData.seralizbleCollection.Contains (behavior)) {
 			return;
 		}
-		seralizbleCollection.Add (behavior);
+		saveData.seralizbleCollection.Add (behavior);
 	}
 
 	public void DestroyGameObject(SerializableBehavior behavior) 
 	{
-		seralizbleCollection.Remove (behavior);
+		saveData.seralizbleCollection.Remove (behavior);
 		
 	}
 
@@ -54,20 +55,21 @@ public class Seralizer
 
 	public void Save(string name)
 	{
+		foreach(SerializableBehavior s in saveData.seralizbleCollection)
+		{
+			s.OnSerialize();
+		}
 		using (var file = File.Create(Application.persistentDataPath +Path.DirectorySeparatorChar + name)) {
-			Serializer.Serialize(file, seralizbleCollection.ToArray());
+			Serializer.Serialize(file, saveData);
 		}
 	}
 
 	public void Load(string name)
 	{
 		try{
-			foreach(SerializableBehavior s in seralizbleCollection)
-			{
-				s.OnSerialize();
-			}
+			
 			using (var file = File.OpenRead(Application.persistentDataPath +Path.DirectorySeparatorChar + name)) {
-					seralizbleCollection.AddRange(Serializer.Deserialize<SerializableBehavior[]>(file));
+				Serializer.Deserialize<SaveData>(file);
 			}
 		}
 		catch(Exception e)

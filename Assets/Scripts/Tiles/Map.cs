@@ -3,9 +3,11 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using ProtoBuf;
+using ProtoBuf.Meta;
 
 [ProtoContract]
-public class Map : SerializableBehavior
+[System.Serializable]
+public class Map : System.Object
 {
 
 	private Dictionary<Tile,TileContainer> tiles = new Dictionary<Tile,TileContainer> ();
@@ -28,11 +30,11 @@ public class Map : SerializableBehavior
 	[SerializeField]
 	private TileMeta Meta;
 
-	protected override void Awake ()
+	public void Start()
 	{
-
+		//set a factory for Map
+		RuntimeTypeModel.Default[typeof(Map)].SetFactory(typeof(Map).GetMethod("Create"));	
 		Meta.Start();
-		base.Awake ();
 	}
 
 
@@ -49,8 +51,8 @@ public class Map : SerializableBehavior
 	public bool IsTileValid(Tile t,int width, int height)
 	{
 		Vector2 relative = t.GetRelativeOrigin ();
-		Vector3 pos = t.transform.TransformPoint(-this.transform.position) + new Vector3(relative.x,relative.y,0);
-		return Meta.IsTileValid(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y),t.Width,t.Height);
+		Vector3 pos =   t.transform.position + new Vector3(relative.x,relative.y,0);
+		return Meta.IsTileValid(t,Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y),t.Width,t.Height);
 	}
 
 		
@@ -59,10 +61,8 @@ public class Map : SerializableBehavior
 		if (tiles.ContainsKey (t))
 			return;
 
-		t.transform.parent = this.transform;
-
 		Vector2 relative = t.GetRelativeOrigin ();
-		Vector3 pos = t.transform.TransformPoint(-this.transform.position) + new Vector3(relative.x,relative.y,0);
+		Vector3 pos = t.transform.position + new Vector3(relative.x,relative.y,0);
 		TileContainer container =  Meta.AddTile (Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), t);
 		if (container == null)
 			return;
@@ -73,7 +73,7 @@ public class Map : SerializableBehavior
 	{
 		if (tiles.ContainsKey (t)) {
 			Vector2 relative = t.GetRelativeOrigin ();
-			Vector3 pos = t.transform.TransformPoint (-this.transform.position) + new Vector3 (relative.x, relative.y, 0);
+			Vector3 pos =  t.transform.position + new Vector3 (relative.x, relative.y, 0);
 
 			Meta.RemoveTile (tiles [t].X, tiles [t].Y);
 			tiles.Remove (t);
@@ -93,12 +93,11 @@ public class Map : SerializableBehavior
 		if (!tiles.ContainsKey (t))
 			return;
 		Meta.RemoveTile (tiles [t].X, tiles [t].Y);
-		t.transform.parent = null;
 	}
 
 
-	void OnDrawGizmos () {
-		Meta.DrawGizmos (this.transform);
+	public void OnDrawGizmos () {
+		Meta.DrawGizmos ();
 	}
 
 	public static Map Create(Type t)

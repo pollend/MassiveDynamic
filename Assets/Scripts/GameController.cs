@@ -9,29 +9,22 @@ public class GameController : MonoBehaviour
 	[SerializeField]
 	public PlacementController PlacementController;
 
-	public Map Map{ get; private set; }
-
 	[SerializeField]
-	private GameObject MapGameObject;
+	public Map Map;
 
-	public Seralizer seralizer = new Seralizer();
-
-
-
-
+	public Seralizer seralizer;
 
 	void Awake()
 	{
 		GameController.Instance = this;
+		Map.Start ();
+		seralizer = new Seralizer ();
 	}
 
 	void Start(){
 
 		AssetManager.Instance.Initialize ();
 
-		//seralizer.RegisterGameObject (new TestSeralization ());
-		Map = MapGameObject.GetComponent<Map> ();
-		RuntimeTypeModel.Default[typeof(Map)].SetFactory(typeof(Map).GetMethod("Create"));	
 
 		//Create Overlay
 		UnityEngine.GameObject.Instantiate (UiAssets.Instance.MainWindoGameObject);
@@ -42,6 +35,7 @@ public class GameController : MonoBehaviour
 
 
 	void OnDrawGizmos () {
+		Map.OnDrawGizmos ();
 	}
 	
 }

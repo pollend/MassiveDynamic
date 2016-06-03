@@ -8,9 +8,15 @@ public class Tile: SerializableBehavior
 {
 	[ProtoMember(2)]
 	private SerializableVector3 _position{ 
-		get{ return  new SerializableVector3(this.transform.TransformPoint (Vector3.zero));} 
-		set{ this.transform.position = value.Vector3(); } 
+		get{
+			UnityEngine.Debug.Log (transform.position);
+			return  new SerializableVector3(this.transform.position);} 
+		set{ 
+			UnityEngine.Debug.Log (value.Vector3());
+			this.transform.position = value.Vector3(); } 
 	}
+
+
 
 	[SerializeField]
 	private int width;
