@@ -2,8 +2,10 @@
 using ProtoBuf;
 
 [ProtoContract]
-[ProtoInclude(1,typeof(Elevator))]
+[ProtoInclude(1,typeof(ElevatorRoom))]
 [ProtoInclude(2,typeof(Lab))]
+[ProtoInclude(3,typeof(DiningHallRoom))]
+[ProtoInclude(4,typeof(LobbyRoom))]
 public class Structure : Tile
 {
 
