@@ -1,5 +1,6 @@
 ﻿using System;
 using ProtoBuf;
+using System.Collections.Generic;
 
 [ProtoContract]
 [ProtoInclude(1,typeof(ElevatorRoom))]
@@ -17,6 +18,18 @@ public class Structure : Tile
 			return true;
 	
 		return false;
+	}
+
+	public override ITileContainer[] connections ()
+	{
+		List<ITileContainer> containers = new List<ITileContainer> ();
+		ITileContainer temp1 = GameController.Instance.Map.GetTile(this.TileContainer.X - 1,this.TileContainer.Y);
+		ITileContainer temp2 = GameController.Instance.Map.GetTile(this.TileContainer.X + this.TileContainer.Width + 1,this.TileContainer.Y);
+		if (temp1 != null)
+			containers.Add (temp1);
+		if (temp2 != null)
+			containers.Add (temp2);
+		return containers.ToArray();
 	}
 }
 

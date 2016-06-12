@@ -14,6 +14,17 @@ public class MainOverlay : MonoBehaviour
 		GameController.Instance.seralizer.Save ("test.bin");
 	}
 
+	public void OpenMenu()
+	{
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown ("Cancel")) {
+				
+		}
+	}
+
 }
 
 

@@ -6,11 +6,5 @@ public class Scientist : Actor
 	{
 	}
 
-	protected override BehaviorTree.Node Tree ()
-	{
-		
-		return base.Tree ();
-	}
-
 }
 

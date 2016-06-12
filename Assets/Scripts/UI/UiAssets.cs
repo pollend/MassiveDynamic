@@ -8,5 +8,7 @@ public class UiAssets : ScriptableSingleton<UiAssets>
 	public GameObject MainWindoGameObject;
 
 	public GameObject LabSelectPanel;
+
+	public GameObject InGameEscapeOverlay;
 }
 

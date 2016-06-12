@@ -46,7 +46,7 @@ public class TileMeta : System.Object
 		return (TileContainer)tiles [xpos, ypos];
 	}
 
-	public Tile GetTile(int x, int y)
+	public TileContainer GetTile(int x, int y)
 	{
 		if (!IsContainedInBoard (x, y, 1, 1)) {
 			return null;
@@ -65,7 +65,7 @@ public class TileMeta : System.Object
 			return null;
 		}
 
-		return ((TileContainer)tiles [xpos, ypos]).Tile;
+		return (TileContainer)tiles [xpos, ypos];
 
 	}
 

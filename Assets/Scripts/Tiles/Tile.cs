@@ -77,6 +77,11 @@ public class Tile: SerializableBehavior
 		return true;
 	}
 
+	public virtual ITileContainer[] connections()
+	{
+		return null;
+	}
+
 
 	protected virtual void OnDrawGizmos ()
 	{

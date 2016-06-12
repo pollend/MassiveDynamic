@@ -82,7 +82,7 @@ public class Map : System.Object
 		}
 	}
 
-	public Tile GetTile(int x, int y)
+	public TileContainer GetTile(int x, int y)
 	{
 		return Meta.GetTile (x, y);
 	}

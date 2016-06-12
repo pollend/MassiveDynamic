@@ -14,4 +14,9 @@ public class ElevatorRoom : Structure {
 	protected override void Update () {
 	
 	}
+
+	public override ITileContainer[] connections ()
+	{
+		return base.connections ();
+	}
 }

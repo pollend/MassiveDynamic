@@ -6,17 +6,15 @@ public class Actor : MonoBehaviour
 {
 	protected BehaviorTree.Tree tree;
 
-	protected virtual Node Tree()
-	{
-		return new Node ();
-	}
 
 	protected virtual void Start(){
-		tree = new BehaviorTree.Tree (Tree());
 	}
 
 	protected virtual void FixedUpdate()
 	{
+		if (tree != null) {
+			tree.Tick ();
+		}
 	}
 
 	protected virtual void Update()

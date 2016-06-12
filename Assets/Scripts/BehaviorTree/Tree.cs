@@ -13,6 +13,16 @@ namespace BehaviorTree
 			this.context.PushNode (root);
 		}
 
+		public void ResetContext()
+		{
+			this.context = new DataContext();
+		}
+
+		public DataContext GetContext()
+		{
+			return this.context;
+		}
+
 		public void Tick()
 		{
 			Node.Result result =  this.context.Peek ().Run (this.context);
