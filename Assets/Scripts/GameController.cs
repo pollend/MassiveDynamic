@@ -12,10 +12,13 @@ public class GameController : MonoBehaviour
 	[SerializeField]
 	public Map Map;
 
+	public ActorCollection ActorCollection;
+
 	public Seralizer seralizer;
 
 	void Awake()
 	{
+		ActorCollection = new ActorCollection ();
 		GameController.Instance = this;
 		Map.Start ();
 		seralizer = new Seralizer ();
@@ -33,6 +36,10 @@ public class GameController : MonoBehaviour
 
 	}
 
+	void Update()
+	{ 
+		Map.Update ();
+	}
 
 	void OnDrawGizmos () {
 		Map.OnDrawGizmos ();

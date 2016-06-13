@@ -37,6 +37,22 @@ public class Map : System.Object
 		Meta.Start();
 	}
 
+	public void Update()
+	{
+		if (Input.GetMouseButtonDown (0)) {
+			
+		}
+	}
+
+	private void ClickEvent(int button)
+	{
+		Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		point.z = 0;
+		TileContainer tile = this.GetTile (Mathf.FloorToInt (point.x), Mathf.FloorToInt (point.y));
+		if (tile != null)
+			tile.Tile.OnClick (button);
+	}
+
 
 	public TileContainer GetTile(Tile t)
 	{

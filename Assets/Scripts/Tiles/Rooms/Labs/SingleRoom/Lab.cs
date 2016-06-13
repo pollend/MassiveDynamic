@@ -1,5 +1,6 @@
 ﻿using System;
 using ProtoBuf;
+using UnityEngine;
 
 [ProtoContract]
 [ProtoInclude(1,typeof(AnimalRoom))]
@@ -15,6 +16,21 @@ using ProtoBuf;
 [ProtoInclude(11,typeof(SampleLab))]
 public class Lab : Structure
 {
+	
+
+	public override void OnClick (int mouseButton)
+	{
+		UIWindowController.Instance.SpawnPanel (GameObject.Instantiate (UiAssets.Instance.LabSinglePanel).GetComponent<Panel>());
+
+		base.OnClick (mouseButton);
+	}
+
+	protected override void Start ()
+	{
+
+
+		base.Start ();
+	}
 
 }
 

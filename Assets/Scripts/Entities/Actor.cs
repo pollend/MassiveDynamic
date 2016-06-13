@@ -8,6 +8,7 @@ public class Actor : MonoBehaviour
 
 
 	protected virtual void Start(){
+		GameController.Instance.ActorCollection.RegisterActor (this);
 	}
 
 	protected virtual void FixedUpdate()
@@ -20,6 +21,12 @@ public class Actor : MonoBehaviour
 	protected virtual void Update()
 	{
 		
+	}
+
+	protected virtual void OnDestroy()
+	{
+
+		GameController.Instance.ActorCollection.UnRegister (this);
 	}
 }
 

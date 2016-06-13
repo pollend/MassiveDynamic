@@ -82,6 +82,11 @@ public class Tile: SerializableBehavior
 		return null;
 	}
 
+	public virtual void OnClick(int mouseButton)
+	{
+		
+	}
+
 
 	protected virtual void OnDrawGizmos ()
 	{
