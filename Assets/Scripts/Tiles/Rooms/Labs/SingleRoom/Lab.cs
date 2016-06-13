@@ -27,10 +27,13 @@ public class Lab : Structure
 
 	protected override void Start ()
 	{
-
+		GameObject gameObject =  UnityEngine.GameObject.Instantiate (AssetManager.Instance.seralizableObjects.GetGameObjectByName ("Scientist"));
+		Vector2 pos = new Vector2 (this.transform.position.x, this.transform.position.y);
+		gameObject.transform.position = GetRelativeOrigin () + pos;
 
 		base.Start ();
 	}
+
 
 }
 

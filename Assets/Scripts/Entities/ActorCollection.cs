@@ -29,7 +29,10 @@ public class ActorCollection
 		return actors.OfType<Scientist> ().ToArray ();
 	}
 
-
+	public Employee[] GetEmployees()
+	{
+		return actors.OfType<Employee> ().ToArray ();
+	}
 
 
 }

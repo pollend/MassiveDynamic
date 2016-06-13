@@ -1,6 +1,8 @@
 ﻿using System;
+using ProtoBuf;
 
-public class Scientist : Actor
+
+public class Scientist : Employee
 {
 	public Scientist ()
 	{

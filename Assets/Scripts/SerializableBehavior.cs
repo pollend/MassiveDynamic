@@ -7,6 +7,7 @@ using System;
 [ProtoContract]
 [ProtoInclude(2,typeof(Map))]
 [ProtoInclude(3,typeof(Tile))]
+[ProtoInclude(4,typeof(Actor))]
 public class SerializableBehavior : MonoBehaviour
 {
 	protected virtual bool IsRegistered()

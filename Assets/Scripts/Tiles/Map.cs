@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ProtoBuf;
 using ProtoBuf.Meta;
+using UnityEngine.EventSystems;
 
 [ProtoContract]
 [System.Serializable]
@@ -40,17 +41,26 @@ public class Map : System.Object
 	public void Update()
 	{
 		if (Input.GetMouseButtonDown (0)) {
-			
+			ClickEvent (0);
+		}
+		else if (Input.GetMouseButtonDown (1)) {
+			ClickEvent (1);
+		}
+		else if (Input.GetMouseButtonDown (2)) {
+			ClickEvent (2);
 		}
 	}
 
 	private void ClickEvent(int button)
 	{
-		Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		point.z = 0;
-		TileContainer tile = this.GetTile (Mathf.FloorToInt (point.x), Mathf.FloorToInt (point.y));
-		if (tile != null)
-			tile.Tile.OnClick (button);
+		if (!EventSystem.current.IsPointerOverGameObject() )
+		{
+			Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			point.z = 0;
+			TileContainer tile = this.GetTile (Mathf.FloorToInt (point.x), Mathf.FloorToInt (point.y));
+			if (tile != null)
+				tile.Tile.OnClick (button);
+		}
 	}
 
 

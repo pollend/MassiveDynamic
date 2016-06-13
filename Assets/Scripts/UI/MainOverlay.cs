@@ -20,9 +20,9 @@ public class MainOverlay : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown ("Cancel")) {
+	//	if (Input.GetKey ("Cancel")) {
 				
-		}
+	//	}
 	}
 
 }

@@ -113,7 +113,7 @@ public class TileMeta : System.Object
 			if (t.IsValid (container))
 				return true;
 
-			return true;
+			return false;
 		}
 		return false;
 	}

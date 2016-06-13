@@ -16,9 +16,16 @@ public class Structure : Tile
 			return true;
 		if (GameController.Instance.Map.GetTile (container.X + container.Width + 1, container.Y) != null)
 			return true;
-	
 		return false;
 	}
+
+	protected override void Start ()
+	{
+		
+
+		base.Start ();
+	}
+
 
 	public override ITileContainer[] connections ()
 	{

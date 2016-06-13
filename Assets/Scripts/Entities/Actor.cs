@@ -1,14 +1,19 @@
 ﻿using System;
 using UnityEngine;
 using BehaviorTree;
+using ProtoBuf;
 
-public class Actor : MonoBehaviour
+[ProtoInclude(1,typeof(Employee))]
+public class Actor : SerializableBehavior
 {
 	protected BehaviorTree.Tree tree;
+	private bool isDead;
 
-
-	protected virtual void Start(){
+	protected override void Start(){
+		base.Start ();
+		isDead = true;
 		GameController.Instance.ActorCollection.RegisterActor (this);
+		this.transform.position = new Vector3(this.transform.position.x,this.transform.position.y,-1);
 	}
 
 	protected virtual void FixedUpdate()
@@ -18,15 +23,20 @@ public class Actor : MonoBehaviour
 		}
 	}
 
-	protected virtual void Update()
+	protected override void Update()
 	{
-		
+		base.Update ();
 	}
 
-	protected virtual void OnDestroy()
+	public virtual void Kill()
 	{
-
+		isDead = false;
 		GameController.Instance.ActorCollection.UnRegister (this);
+	}
+
+	protected override void OnDestroy()
+	{
+		base.OnDestroy ();
 	}
 }
 
