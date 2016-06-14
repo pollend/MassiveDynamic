@@ -12,6 +12,12 @@ namespace BehaviorTree
 			this.root = root;
 			this.context.PushNode (root);
 		}
+		public Tree (Node root,DataContext context)
+		{
+			this.context = context;
+			this.root = root;
+			this.context.PushNode (root);
+		}
 
 		public void ResetContext()
 		{

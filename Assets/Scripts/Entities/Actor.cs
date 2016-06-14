@@ -8,8 +8,15 @@ public class Actor : SerializableBehavior
 {
 	protected BehaviorTree.Tree tree;
 	private bool isDead;
+	protected DataContext context;
+
+	public Rigidbody2D RigidBody { get; private set; }
 
 	protected override void Start(){
+		context = new DataContext ();
+		context.actor = this;
+		RigidBody = this.gameObject.GetComponent<Rigidbody2D> ();
+
 		base.Start ();
 		isDead = true;
 		GameController.Instance.ActorCollection.RegisterActor (this);

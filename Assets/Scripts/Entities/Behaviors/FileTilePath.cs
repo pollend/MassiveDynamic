@@ -3,7 +3,7 @@ using BehaviorTree;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class FindPath<T> : Node   
+public class FileTilePath<T> : Node   
 {
 	public class TileNode
 	{
@@ -23,7 +23,7 @@ public class FindPath<T> : Node
 	private List<ITileContainer> exclude = new List<ITileContainer> ();
 
 
-	public FindPath (String startPos,String output)
+	public FileTilePath (String startPos,String output)
 	{
 		this.outputMapping = output;
 		this.startPos = startPos;

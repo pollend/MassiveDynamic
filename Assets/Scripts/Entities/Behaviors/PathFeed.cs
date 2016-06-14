@@ -4,15 +4,27 @@ using System.Collections.Generic;
 
 public class PathFeed : Decorator
 {
+	public class PathPair
+	{
+		public PathPair(TileContainer current,TileContainer next)
+		{
+			this.current = current;
+			this.next = next;
+		}
+
+		public TileContainer current;
+		public TileContainer next;
+	}
+
 	private string pathin;
 	private string tileOut;
 
 	private Stack<TileContainer> path = new Stack<TileContainer> ();
 
-	public PathFeed (string pathin,string tileOut, Node node) : base (node)
+	public PathFeed (string tilePath,string tilePair, Node node) : base (node)
 	{
-		this.pathin = pathin;
-		this.tileOut = tileOut;
+		this.pathin = tilePath;
+		this.tileOut = tilePair;
 	}
 
 	public override void Initialize (DataContext context)
@@ -25,8 +37,10 @@ public class PathFeed : Decorator
 	public override Result Run (DataContext context)
 	{
 		if (this.path.Count != 0) {
-			TileContainer container = this.path.Pop ();
-			context.SetValue (tileOut, container);
+			TileContainer current = this.path.Pop ();
+			TileContainer next = this.path.Peek ();
+
+			context.SetValue (tileOut, new PathPair(current,next));
 		} else {
 			return Result.SUCCESS;
 		}

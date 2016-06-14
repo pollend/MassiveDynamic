@@ -7,6 +7,7 @@ namespace BehaviorTree
 	{
 		private Dictionary<String,Object> context = new Dictionary<string, object>();
 		private Stack<Node> nodes = new Stack<Node>();
+		public Actor actor { get; set; }
 
 		public DataContext ()
 		{
